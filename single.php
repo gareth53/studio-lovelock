@@ -1,4 +1,4 @@
-\<?php get_header(); global $more; ?>
+<?php get_header(); global $more; ?>
 
 			<!-- If it's the single portfolio page, show this -->
 			<?php $portfoliocat = of_get_option('of_portfolio_cat', 'no entry' ); ?>
@@ -80,8 +80,21 @@
 						<h3><?php _e('Project Details','okay'); ?></h3>
 						<ul class="portfolio-meta-links">
 					    	<!--li><span><div class="pictogram">e</div> <?php echo get_the_date(); ?></span></li>
-					    	<li><span><div class="pictogram">f</div> <?php the_author_link(); ?></span></li-->
-					    	<li><span><div class="pictogram">4</div> <div class="tag-wrap"><?php the_category(', ') ?></div></span></li>
+					    	<li><span><div class="pictogram">f</div> <?php the_author_link(); ?></span></li>
+					    	<li><span><div class="pictogram">4</div> <div class="tag-wrap"><?php the_category(', ') ?></div></span></li-->
+<?php 
+  $postcats = get_the_category();
+  $comma = "";
+  if ($postcats) {
+  echo '<li><span><div class="pictogram">4</div> <div class="tag-wrap">';
+    foreach($postcats as $cat) {
+      echo $comma;
+      echo $cat->name; 
+      $comma = ", ";
+    }
+  echo "</div></span></li>";
+  }
+?>
 					    	<?php the_tags('<li><span><div class="pictogram">J</div><div class="tag-wrap">', ', ', '</div></span></li>'); ?>
 					    </ul>
 					</div><!-- portfolio meta -->
@@ -105,7 +118,7 @@
 					<?php } ?>
 				</div>
 				
-				<div class="content content-full">
+				<div class="content">
 					<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 	
 					<div id="post-<?php the_ID(); ?>" <?php post_class('blog-post clearfix'); ?>>
@@ -115,7 +128,9 @@
 							</div>
 						<?php } else { ?>
 						
-				
+						<?php if ( has_post_thumbnail() ) { ?>
+						<a class="blog-image" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_post_thumbnail( 'blog-image' ); ?></a>
+						<?php } ?>
 						
 						<?php } ?>
 						
@@ -134,27 +149,27 @@
 						</div><!-- blog text -->
 						
 						<!-- Show this on mobile site -->
-						<!--div class="portfolio-meta meta-mobile">
+						<div class="portfolio-meta meta-mobile">
 							<ul class="portfolio-meta-links">
-						    	<li><span class="meta-list"><span class="pictogram">e</span> <?php echo get_the_date(); ?></span></li>
-						    	<li><span class="meta-list"><span class="pictogram">f</span> <?php the_author_link(); ?></span></li>
+						    	<!--li><span class="meta-list"><span class="pictogram">e</span> <?php echo get_the_date(); ?></span></li>
+						    	<li><span class="meta-list"><span class="pictogram">f</span> <?php the_author_link(); ?></span></li-->
 						    	<li><span class="meta-list"><span class="pictogram">4</span> <span class="tag-wrap"><?php the_category(', ') ?></span></span></li>
 						    	<?php the_tags('<li><span class="meta-list"><span class="pictogram">J</span><span class="tag-wrap">', ', ', '</span></span></li>'); ?>
 						    </ul>
-						</div--><!-- alt blog meta -->
+						</div><!-- alt blog meta -->
 						
 						
 						<!-- Show this on full site -->
 						<div class="blog-meta">
-							<!--ul class="meta-links">
-						    	<li><span class="meta-list"><span class="pictogram">e</span> <?php echo get_the_date(); ?></span></li>
-						    	<li><span class="meta-list"><span class="pictogram">f</span> <?php the_author_link(); ?></span></li>
+							<ul class="meta-links">
+						    	<!--li><span class="meta-list"><span class="pictogram">e</span> <?php echo get_the_date(); ?></span></li>
+						    	<li><span class="meta-list"><span class="pictogram">f</span> <?php the_author_link(); ?></span></li-->
 						    	<li><span class="meta-list"><span class="pictogram">4</span> <span class="tag-wrap"><?php the_category(', ') ?></span></span></li>
 						    	<?php the_tags('<li><span><span class="pictogram">J</span><span class="tag-wrap">', ', ', '</span></span></li>'); ?>
 						    	<li><span class="meta-list"><span class="pictogram">b</span> <a href="<?php the_permalink(); ?>#comments"><?php comments_number(__('No Comments','okay'),__('1 Comment','okay'),__( '% Comments','okay') );?></a></span></li> 
 						    </ul>
-							<div class="clear"></div-->
-							<ul class="post-share" style="padding-top:0;margin-top:0">
+							<div class="clear"></div>
+							<ul class="post-share">
 								<li class="share-title"><?php _e('Share','okay'); ?></li>
 								<li class="twitter">
 									<a onclick="window.open('http://twitter.com/home?status=<?php the_title(); ?> - <?php the_permalink(); ?>','twitter','width=450,height=300,left='+(screen.availWidth/2-375)+',top='+(screen.availHeight/2-150)+'');return false;" href="http://twitter.com/home?status=<?php the_title(); ?> - <?php the_permalink(); ?>" title="<?php the_title(); ?>" target="blank">Twitter</a>
@@ -187,7 +202,7 @@
 					<?php endif; ?>
 				</div><!-- content -->
 	
-				
+				<?php get_sidebar(); ?>
 				<div class="clear"></div>
 			</div><!-- container -->
 				
