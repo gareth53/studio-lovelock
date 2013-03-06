@@ -128,9 +128,7 @@
 							</div>
 						<?php } else { ?>
 						
-						<?php if ( has_post_thumbnail() ) { ?>
-						<a class="blog-image" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_post_thumbnail( 'blog-image' ); ?></a>
-						<?php } ?>
+				
 						
 						<?php } ?>
 						
